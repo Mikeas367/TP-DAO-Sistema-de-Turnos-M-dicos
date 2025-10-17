@@ -15,3 +15,15 @@
     * aplicacion principal
 * database.py
     * clase que se encarga de la coneccion a la db y la creacion de la misma
+
+## Dependencias para el proyecto
+para el proyecto estamos utilizando fastApi y uvicorn. Para instalar estas dependencias utilizamos el siguiente comando:
+```
+python -m pip install fastapi uvicorn
+```
+
+## Iniciar el proyecto
+
+```
+python -m uvicorn app:app --reload
+```
