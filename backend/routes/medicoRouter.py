@@ -13,12 +13,13 @@ medico_controller = MedicoController(medico_repo)
 
 @router.post("/medicos")
 def alta_medico(medico: Medico):
+    print(medico)
     creado = medico_controller.crear_medico(
         nombre=medico.nombre,
         apellido=medico.apellido,
         email=medico.email
     )
-    return {"mensaje": "Médico creado", "nombre": creado.nombre}
+    return {"mensaje": "Médico creado"}
 
 @router.get("/medicos")
 def listar_medicos():
