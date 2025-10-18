@@ -1,23 +1,24 @@
 import {useForm} from 'react-hook-form'
 import { useState } from "react";
 import { crearMedico } from '../../services'
-import type { Medico } from '../models';
+import type { MedicoBase } from '../../models';
 
 export const MedicoForm = ()=> {
     
-    const {register, handleSubmit, watch, reset} = useForm<Medico>()
+    const {register, handleSubmit, watch, reset} = useForm<MedicoBase>()
 
     const [mensaje, setMensaje] = useState(""); 
   const [error, setError] = useState("");
 
-    const onSumbit = async (data: Medico)=> {
+    const onSumbit = async (data: MedicoBase)=> {
         try {
             setMensaje("");
             setError("");
             const res = await crearMedico(data);
             setMensaje(res.mensaje); 
             reset(); 
-        } catch (err) {
+        } catch (err:any) {
+            console.log(err.response)
             setError("Error al crear el médico");
         }
     }

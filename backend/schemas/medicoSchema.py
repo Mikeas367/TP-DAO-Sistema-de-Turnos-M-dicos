@@ -1,6 +1,6 @@
-from pydantic import BaseModel
+from pydantic import BaseModel,Field, EmailStr
 
 class Medico(BaseModel):
-    nombre: str 
-    apellido: str
-    email: str
+    nombre: str = Field(..., min_length=2)
+    apellido: str = Field(..., min_length=2)
+    email: EmailStr

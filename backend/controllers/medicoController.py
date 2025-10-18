@@ -9,3 +9,10 @@ class MedicoController:
         medico = Medico(nombre, apellido, email)
         self.repository.save(medico)
         return medico
+
+    def listar_medicos(self):
+        medicos = self.repository.getAll()
+        return medicos
+    
+    def eliminar_medico_por_id(self, id):
+        self.repository.deleteById(id)

@@ -7,3 +7,12 @@ class IRepository(ABC, Generic[T]):
     @abstractmethod
     def save(self, entity: T):
         pass
+    
+    @abstractmethod
+    def getAll(self):
+        pass
+
+    @abstractmethod
+    def deleteById(self, id):
+        pass
+    

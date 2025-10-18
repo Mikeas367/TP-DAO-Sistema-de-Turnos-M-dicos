@@ -4,9 +4,8 @@ from database import Database
 from repositories.sqliteMedicoRepository import SqliteMedicoRepository
 from controllers.medicoController import MedicoController
 
-router = APIRouter()  # Usar APIRouter en lugar de FastAPI()
+router = APIRouter() 
 
-# Instancias globales (únicas)
 db = Database()
 medico_repo = SqliteMedicoRepository(db)
 medico_controller = MedicoController(medico_repo)
@@ -14,7 +13,7 @@ medico_controller = MedicoController(medico_repo)
 @router.post("/medicos")
 def alta_medico(medico: Medico):
     print(medico)
-    creado = medico_controller.crear_medico(
+    medico_controller.crear_medico(
         nombre=medico.nombre,
         apellido=medico.apellido,
         email=medico.email
@@ -24,4 +23,10 @@ def alta_medico(medico: Medico):
 @router.get("/medicos")
 def listar_medicos():
     medicos = medico_controller.listar_medicos()
-    return {"medicos": medicos}
+    return medicos
+
+@router.delete("/medicos/{id}")
+def eliminar_medico_por_id(id):
+    print("El id es" + id)
+    medico_controller.eliminar_medico_por_id(id)
+    return {"mensaje": "Médico eliminado"}

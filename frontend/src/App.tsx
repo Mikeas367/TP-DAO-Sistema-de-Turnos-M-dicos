@@ -1,7 +1,7 @@
 
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import {MedicoForm, SideBar} from "./components"
+import {MedicoForm, MedicoList, SideBar} from "./components"
 
 
 function App() {
@@ -14,6 +14,7 @@ function App() {
         <Routes>
           <Route path="/"element={<h1>Bienvenido</h1>}></Route>
           <Route path="/nuevo-medico"element={<MedicoForm/>}></Route>
+          <Route path="/medicos"element={<MedicoList/>}></Route>
         </Routes>
         </div>
     </Router>

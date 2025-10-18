@@ -22,6 +22,11 @@ export const SideBar = () =>  {
                     Nuevo Medico
                 </Link>
             </li>
+            <li className='nav-item'>
+                <Link to="/medicos" className='nav-link'>
+                    Listado de medicos
+                </Link>
+            </li>
         </ul>
     </div>  
     </>
