@@ -11,7 +11,19 @@ class SqliteEspecialidadRepository(IRepository):
         self.db.execute(query, (especialidad.nombre, especialidad.descripcion))
 
     def getAll(self):
-        pass
+        query = "SELECT id, nombre, descripcion FROM especialidades"
+        cursor = self.db.execute(query)
+        filas_especialidades = cursor.fetchall()
+        especialidades = []
+        # le doy como un formato Json 
+        for fila in filas_especialidades:
+            especialidad = {
+                "id": fila[0],
+                "nombre": fila[1],
+                "descripcion": fila[2],
+            }
+            especialidades.append(especialidad)
+        return especialidades
 
     def deleteById(self, id):
         pass

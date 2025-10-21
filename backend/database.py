@@ -7,22 +7,28 @@ class Database:
         self.create_table()
 
     def create_table(self):
-        self.cursor.execute('''
-            CREATE TABLE IF NOT EXISTS medicos (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                nombre TEXT NOT NULL,
-                apellido TEXT NOT NULL,
-                email TEXT UNIQUE
-            )
-        ''')
 
         self.cursor.execute('''
-                CREATE TABLE IF NOT EXISTS especialidad (
+                CREATE TABLE IF NOT EXISTS especialidades (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     nombre TEXT NOT NULL, 
                     descripcion TEXT NOT NULL   
                 )
             ''')
+        
+
+        self.cursor.execute('''
+            CREATE TABLE IF NOT EXISTS medicos (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                nombre TEXT NOT NULL,
+                apellido TEXT NOT NULL,
+                email TEXT UNIQUE,
+                especialidad_id INTEGER NOT NULL,
+                FOREIGN KEY (especialidad_id) REFERENCES especialidades(id)
+            )
+        ''')
+
+        
         self.conn.commit()
 
     def execute(self, query, params=()):

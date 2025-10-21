@@ -16,7 +16,8 @@ def alta_medico(medico: Medico):
     medico_controller.crear_medico(
         nombre=medico.nombre,
         apellido=medico.apellido,
-        email=medico.email
+        email=medico.email,
+        especialidad_id=medico.especialidad_id
     )
     return {"mensaje": "Médico creado"}
 

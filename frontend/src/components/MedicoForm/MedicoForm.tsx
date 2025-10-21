@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { crearMedico, obtenerMedicoPorId, actualizarMedico } from "../../services";
 import type { MedicoBase } from "../../models";
+import type { Especialidad } from "../../models/especialidad";
+import { listarEspecialidad } from "../../services/especialidad.service";
 
 interface MedicoFormProps {
   medicoId?: number;
@@ -13,9 +15,24 @@ export const MedicoForm = ({ medicoId, onSuccess, onCancel }: MedicoFormProps) =
   const { register, handleSubmit, reset } = useForm<MedicoBase>();
   const [error, setError] = useState("");
 
+  const [especialidades, setEspecialidades] = useState<Especialidad[]>()
+
   // Si hay medicoId, cargamos los datos para editar
+
+  const getEspecialidades = async () => {
+    try {
+      const response = await listarEspecialidad();
+      setEspecialidades(response);
+    } catch (err) {
+      console.error(err);
+      setError("Error al cargar especialidades");
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
+      await getEspecialidades();
+
       if (medicoId) {
         try {
           const medico = await obtenerMedicoPorId(medicoId);
@@ -23,14 +40,14 @@ export const MedicoForm = ({ medicoId, onSuccess, onCancel }: MedicoFormProps) =
             nombre: medico.nombre,
             apellido: medico.apellido,
             email: medico.email,
+            especialidad_id: medico.especialidad_id,
           });
-          
         } catch (err) {
           console.error(err);
           setError("Error al cargar el médico");
         }
       } else {
-        reset({ nombre: "", apellido: "", email: "" });
+        reset({ nombre: "", apellido: "", email: "", especialidad_id: undefined });
       }
     };
     fetchData();
@@ -67,6 +84,17 @@ export const MedicoForm = ({ medicoId, onSuccess, onCancel }: MedicoFormProps) =
 
         <label>Email</label>
         <input {...register("email")} className="form-control mb-2" required />
+
+        <label>Especialidad</label>
+        <select {...register("especialidad_id")} className="form-control mb-2" required>
+          <option value="">Seleccione una especialidad</option>
+          {especialidades?.map((esp) => (
+            <option key={esp.id} value={esp.id}>
+              {esp.nombre}
+            </option>
+          ))}
+        </select>
+
 
         <div className="mt-3">
           <button type="submit" className="btn btn-success me-2">

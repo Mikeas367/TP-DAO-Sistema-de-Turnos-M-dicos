@@ -8,8 +8,8 @@ class SqliteMedicoRepository(IRepository):
         self.db = db
 
     def save(self, medico: Medico):
-        query = "INSERT INTO medicos (nombre, apellido, email) VALUES (?, ?, ?)"
-        self.db.execute(query, (medico.nombre, medico.apellido, medico.email))
+        query = "INSERT INTO medicos (nombre, apellido, email, especialidad_id) VALUES (?, ?, ?, ?)"
+        self.db.execute(query, (medico.nombre, medico.apellido, medico.email, medico.especialidad_id))
 
     def getAll(self):
         query = "SELECT id, nombre, apellido, email FROM medicos"

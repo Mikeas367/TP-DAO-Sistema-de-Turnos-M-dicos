@@ -5,8 +5,9 @@ class MedicoController:
     def __init__(self, repository: IRepository):
         self.repository = repository # repositorio del medico
 
-    def crear_medico(self, nombre: str, apellido: str, email: str):
-        medico = Medico(nombre, apellido, email)
+    def crear_medico(self, nombre: str, apellido: str, email: str, especialidad_id: int):
+        
+        medico = Medico(nombre, apellido, email, especialidad_id)
         self.repository.save(medico)
         return medico
 

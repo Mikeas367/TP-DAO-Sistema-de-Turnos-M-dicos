@@ -3,6 +3,7 @@ from fastapi import APIRouter
 from repositories.sqliteEspecialidadRepository import SqliteEspecialidadRepository
 from controllers.especialidadController import especialidadController
 from schemas.especialidadSchema import Especialidad
+
 router = APIRouter()
 
 db = Database()
@@ -13,3 +14,9 @@ especialidad_controller = especialidadController(especialidad_repo)
 def alta_especialidad(especialidad: Especialidad):
     especialidad_controller.crear_especialidad(especialidad.nombre, especialidad.descripcion)
     return {"mensaje" : "Especialidad creada"}
+
+@router.get("/especialidad")
+def listar_especialidades():
+    especialidades = especialidad_controller.listar_especialidades()
+    return especialidades
+
