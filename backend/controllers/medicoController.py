@@ -14,5 +14,25 @@ class MedicoController:
         medicos = self.repository.getAll()
         return medicos
     
-    def eliminar_medico_por_id(self, id):
-        self.repository.deleteById(id)
+    def obtener_medico(self, id: int):
+        medicos = self.repository.getAll()
+        for medico in medicos:
+            if medico["id"] == id:
+                return medico
+        return None
+    
+    def eliminar_medico_por_id(self, id: int) -> bool:
+        try:
+            eliminado = self.repository.deleteById(id)
+            return eliminado
+        except Exception:
+            return False
+        
+
+    def actualizar_medico(self, id: int, nombre: str, apellido: str, email: str) -> bool:
+        medico_existente = self.repository.getById(id)
+        if not medico_existente:
+            return False
+        self.repository.update(id, nombre, apellido, email)
+        return True
+

@@ -26,8 +26,27 @@ class SqliteMedicoRepository(IRepository):
             }
             medicos.append(medico)
         return medicos
+    
+    def getById(self, id):
+        query = "SELECT id, nombre, apellido, email FROM medicos WHERE id = ?"
+        cursor = self.db.execute(query, (id,))
+        fila = cursor.fetchone()
+        if fila:
+            return {
+                "id": fila[0],
+                "nombre": fila[1],
+                "apellido": fila[2],
+                "email": fila[3]
+            }
+        return None
+
+    def update(self, id, nombre, apellido, email):
+        query = "UPDATE medicos SET nombre = ?, apellido = ?, email = ? WHERE id = ?"
+        self.db.execute(query, (nombre, apellido, email, id))
 
     def deleteById(self, id):
         query = "DELETE FROM medicos WHERE id = ?"
-        self.db.execute(query, (id))
+        cursor = self.db.execute(query, (id,))
+        return cursor.rowcount > 0
+
         

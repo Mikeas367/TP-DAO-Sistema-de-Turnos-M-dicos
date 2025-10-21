@@ -15,6 +15,14 @@ class Database:
                 email TEXT UNIQUE
             )
         ''')
+
+        self.cursor.execute('''
+                CREATE TABLE IF NOT EXISTS especialidad (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    nombre TEXT NOT NULL, 
+                    descripcion TEXT NOT NULL   
+                )
+            ''')
         self.conn.commit()
 
     def execute(self, query, params=()):
