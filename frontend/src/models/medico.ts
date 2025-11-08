@@ -1,3 +1,5 @@
+import type { Especialidad } from "./especialidad"
+
 export interface MedicoBase {
     nombre: string 
     apellido: string
@@ -7,4 +9,5 @@ export interface MedicoBase {
     
 export interface Medico extends MedicoBase {
     id: number
+    especialidad: Especialidad
 }

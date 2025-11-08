@@ -77,6 +77,7 @@ export const MedicoList = () => {
             <th>Nombre</th>
             <th>Apellido</th>
             <th>Email</th>
+            <th>Especialidad</th>
             <th className="text-center">Acciones</th>
           </tr>
         </thead>
@@ -87,6 +88,7 @@ export const MedicoList = () => {
               <td>{medico.nombre}</td>
               <td>{medico.apellido}</td>
               <td>{medico.email}</td>
+              <td>{medico.especialidad.nombre}</td>
               <td className="text-center">
                 <button
                   className="btn btn-warning me-2"

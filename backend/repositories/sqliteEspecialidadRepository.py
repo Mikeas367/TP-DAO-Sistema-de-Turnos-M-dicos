@@ -27,3 +27,15 @@ class SqliteEspecialidadRepository(IRepository):
 
     def deleteById(self, id):
         pass
+
+    def getById(self, id):
+        query = "SELECT id, nombre, descripcion FROM especialidades WHERE id = ?"
+        cursor = self.db.execute(query, (id,))
+        fila = cursor.fetchone()
+        if not fila:
+            return None
+    
+        return Especialidad(fila[0], fila[1], fila[2])
+    
+    def update(self, especialidad: Especialidad):
+        pass

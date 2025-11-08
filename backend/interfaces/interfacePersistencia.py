@@ -15,4 +15,12 @@ class IRepository(ABC, Generic[T]):
     @abstractmethod
     def deleteById(self, id):
         pass
+
+    @abstractmethod
+    def getById(self, id):
+        pass
+
+    @abstractmethod
+    def update(self, entity: T):
+        pass
     

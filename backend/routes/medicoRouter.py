@@ -2,49 +2,43 @@ from fastapi import APIRouter, HTTPException
 from schemas.medicoSchema import Medico
 from database import Database
 from repositories.sqliteMedicoRepository import SqliteMedicoRepository
+from repositories.sqliteEspecialidadRepository import SqliteEspecialidadRepository
 from controllers.medicoController import MedicoController
-
+from controllers.medico.nuevoMedicoController import NuevoMedicoController
+from controllers.medico.consultarMedicos import ConsultarMedicosController
+from controllers.medico.modificarMedicoController import ModificarMedicosController
 router = APIRouter() 
 
 db = Database()
 medico_repo = SqliteMedicoRepository(db)
-medico_controller = MedicoController(medico_repo)
+especialidad_repo = SqliteEspecialidadRepository(db)
+medico_controller = MedicoController(medico_repo, especialidad_repo)
+nuevo_medico_controller = NuevoMedicoController(medico_repo, especialidad_repo)
+consultar_medicos_controller = ConsultarMedicosController(medico_repo)
+modificarMedicosController = ModificarMedicosController(medico_repo)
+
 
 @router.post("/medicos")
 def alta_medico(medico: Medico):
-    print(medico)
-    medico_controller.crear_medico(
+    return nuevo_medico_controller.nuevo_medico(
         nombre=medico.nombre,
         apellido=medico.apellido,
         email=medico.email,
         especialidad_id=medico.especialidad_id
     )
-    return {"mensaje": "Médico creado"}
 
 @router.get("/medicos")
 def listar_medicos():
-    medicos = medico_controller.listar_medicos()
-    return medicos
+    return consultar_medicos_controller.obtener_medicos()
 
 #Buscar un solo medico
 @router.get("/medicos/{id}")
 def obtener_medico(id: int):
-    medico = medico_controller.obtener_medico(id)
-    if not medico:
-        raise HTTPException(status_code=404, detail="Médico no encontrado")
-    return medico
+    return consultar_medicos_controller.obtener_medico_por_id(id)
 
 @router.put("/medicos/{id}")
 def actualizar_medico(id: int, medico: Medico):
-    actualizado = medico_controller.actualizar_medico(
-        id=id,
-        nombre=medico.nombre,
-        apellido=medico.apellido,
-        email=medico.email
-    )
-    if not actualizado:
-        raise HTTPException(status_code=404, detail="Médico no encontrado")
-    return {"mensaje": "Médico actualizado"}
+    modificarMedicosController.modificar_medico(id=id, nombre=medico.nombre, apellido=medico.apellido, email=medico.email, especialidad_id=medico.especialidad_id)
 
 @router.delete("/medicos/{id}")
 def eliminar_medico(id: int):
