@@ -9,7 +9,7 @@ class IRepository(ABC, Generic[T]):
         pass
     
     @abstractmethod
-    def getAll(self):
+    def getAll(self): 
         pass
 
     @abstractmethod

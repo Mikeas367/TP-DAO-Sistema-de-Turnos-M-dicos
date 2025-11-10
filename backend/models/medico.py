@@ -8,4 +8,3 @@ class Medico:
         self.apellido = apellido
         self.email = email
         self.especialidad = especialidad 
-    

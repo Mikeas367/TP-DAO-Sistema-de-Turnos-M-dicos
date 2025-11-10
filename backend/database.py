@@ -7,7 +7,7 @@ class Database:
         self.create_table()
 
     def create_table(self):
-
+        # Tabla de Especialidades
         self.cursor.execute('''
                 CREATE TABLE IF NOT EXISTS especialidades (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -16,7 +16,7 @@ class Database:
                 )
             ''')
         
-
+        # Tabla de Medicos
         self.cursor.execute('''
             CREATE TABLE IF NOT EXISTS medicos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -27,6 +27,40 @@ class Database:
                 FOREIGN KEY (especialidad_id) REFERENCES especialidades(id)
             )
         ''')
+        
+        # Tabla de Pacientes
+        self.cursor.execute('''
+            CREATE TABLE IF NOT EXISTS pacientes (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                nombre TEXT NOT NULL,
+                apellido TEXT NOT NULL,
+                email TEXT UNIQUE
+            )
+        ''')
+
+        # Tabla de Estados
+        self.cursor.execute('''
+            CREATE TABLE IF NOT EXISTS estados (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                nombre TEXT NOT NULL,
+                descripcion TEXT
+            )
+        ''')
+
+        # Tabla de Turnos
+        self.cursor.execute('''
+            CREATE TABLE IF NOT EXISTS turnos (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                paciente_id INTEGER,
+                medico_id INTEGER NOT NULL,
+                estado_id INTEGER NOT NULL,
+                fecha TEXT NOT NULL,
+                FOREIGN KEY (paciente_id) REFERENCES pacientes(id),
+                FOREIGN KEY (medico_id) REFERENCES medicos(id),
+                FOREIGN KEY (estado_id) REFERENCES estados(id)
+            )
+        ''')
+        
 
         
         self.conn.commit()
