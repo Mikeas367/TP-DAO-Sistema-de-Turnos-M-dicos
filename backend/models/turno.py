@@ -15,9 +15,12 @@ class Turno:
     def esta_libre(self):
         return self.estado.es_libre()
     
-    def solicitar_turno(self, estado: Estado):
+    def solicitar_turno(self, estado: Estado, paciente: Paciente):
         if self.esta_libre:
             self.estado = estado
+            self.paciente = paciente
+            print("SE OCUPO EL TURNO")
+
 
 
     def __str__(self):

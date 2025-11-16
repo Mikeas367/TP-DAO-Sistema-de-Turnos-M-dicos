@@ -1,0 +1,28 @@
+/* Calendar grid */
+.calendar-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+  padding: 20px;
+}
+
+/* Tarjeta del turno */
+.turno-card {
+  padding: 12px;
+  border-radius: 8px;
+  color: white;
+}
+
+/* Colores según estado */
+.ocupado {
+  background-color: #d9534f; /* rojo */
+}
+
+.libre {
+  background-color: #5cb85c; /* verde */
+}
+
+.sin-paciente {
+  opacity: 0.7;
+  font-style: italic;
+}

@@ -8,3 +8,5 @@ class Estado:
     def es_libre(self):
         return self.nombre == "Libre"
     
+    def es_ocupado(self):
+        return self.nombre == "Ocupado"
