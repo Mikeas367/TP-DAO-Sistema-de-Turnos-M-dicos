@@ -66,7 +66,7 @@ class SqliteTurnoRepository(IRepository):
 
         return turnos
     
-    def getById(self, id):
+    def getById(self, id) -> Turno:
         query = """
         SELECT 
             t.id, t.fecha,
@@ -123,8 +123,10 @@ class SqliteTurnoRepository(IRepository):
             SET paciente_id = ?, medico_id = ?, estado_id = ?, fecha = ?
             WHERE id = ?
         """
+        paciente_id = turno.paciente.id if turno.paciente is not None else None
+
         self.db.execute(query, (
-            turno.paciente.id,
+            paciente_id,
             turno.medico.id,
             turno.estado.id,
             turno.fecha,

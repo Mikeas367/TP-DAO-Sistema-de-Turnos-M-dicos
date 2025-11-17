@@ -2,16 +2,13 @@ import React from "react";
 import type { Turno } from "../../models/turno";
 import "./Calendario.css"
 
-interface Props {
+interface Props{
   turnos: Turno[];
+  onSeleccionar: (turno: Turno) => void;      // Para ocupar turno
+  onLiberar: (turno: Turno) => void;          // Para liberar turno
 }
 
-interface Props {
-  turnos: Turno[];
-  onSeleccionar: (turno: Turno) => void;
-}
-
-export const CalendarTurnos: React.FC<Props> = ({ turnos, onSeleccionar }) => {
+export const CalendarTurnos: React.FC<Props> = ({ turnos, onSeleccionar, onLiberar }) => {
   return (
     <div className="calendar-container">
       {turnos.map((turno) => {
@@ -23,7 +20,7 @@ export const CalendarTurnos: React.FC<Props> = ({ turnos, onSeleccionar }) => {
             key={turno.id}
             className={`turno-card ${esOcupado ? "ocupado" : "libre"}`}
             onClick={() => !esOcupado && onSeleccionar(turno)}
-            style={{ cursor: esOcupado ? "not-allowed" : "pointer" }}
+            style={{ cursor: esOcupado ? "default" : "pointer" }}
           >
             <strong>
               {fecha.toLocaleDateString()} - {fecha.getHours()}:00
@@ -38,9 +35,22 @@ export const CalendarTurnos: React.FC<Props> = ({ turnos, onSeleccionar }) => {
             </p>
 
             {turno.paciente ? (
-              <p>
-                <b>Paciente:</b> {turno.paciente.nombre} {turno.paciente.apellido}
-              </p>
+              <>
+                <p>
+                  <b>Paciente:</b> {turno.paciente.nombre} {turno.paciente.apellido}
+                </p>
+
+                {/* BOTÓN LIBERAR TURNO */}
+                <button
+                  className="btn-liberar"
+                  onClick={(e) => {
+                    e.stopPropagation();   // evita abrir modal
+                    onLiberar(turno);
+                  }}
+                >
+                  Liberar turno
+                </button>
+              </>
             ) : (
               <p className="sin-paciente">Sin paciente</p>
             )}

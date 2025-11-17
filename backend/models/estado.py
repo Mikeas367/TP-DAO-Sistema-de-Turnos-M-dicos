@@ -10,3 +10,9 @@ class Estado:
     
     def es_ocupado(self):
         return self.nombre == "Ocupado"
+    
+    def es_asistido(self):
+        return self.nombre == "Asistido"
+    
+    def es_no_asistido(self):
+        return self.nombre == "No Asistido"

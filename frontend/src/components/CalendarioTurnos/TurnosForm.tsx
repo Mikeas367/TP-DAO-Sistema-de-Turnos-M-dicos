@@ -1,11 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import type { Turno } from "../../models/turno";
-import { FormOcuparTurno } from "./FormOcuparTurno";
 import { CalendarTurnos } from "./CalendarioTurnos";
+import { FormOcuparTurno } from "./FormOcuparTurno";
 
-
-
-export const TurnosForm = ()=>{
+export const TurnosForm = () => {
   const [turnos, setTurnos] = useState<Turno[]>([]);
   const [fechaFiltro, setFechaFiltro] = useState<string>("");
   const [espFiltro, setEspFiltro] = useState<number | "">("");
@@ -21,14 +19,18 @@ export const TurnosForm = ()=>{
     cargarTurnos();
   }, []);
 
+  // ----------------------------- 
   // ESPECIALIDADES ÚNICAS
+  // -----------------------------
   const especialidades = Array.from(
     new Map(
       turnos.map((t) => [t.medico.especialidad.id, t.medico.especialidad.nombre])
     ).entries()
   );
 
+  // ----------------------------- 
   // FILTRO DE TURNOS
+  // -----------------------------
   const turnosFiltrados = turnos.filter((t) => {
     const coincideFecha = fechaFiltro
       ? new Date(t.fecha.replace(" ", "T")) >= new Date(fechaFiltro)
@@ -40,6 +42,24 @@ export const TurnosForm = ()=>{
 
     return coincideFecha && coincideEsp;
   });
+
+  // ----------------------------- 
+  // LIBERAR TURNO (POST)
+  // -----------------------------
+  const liberarTurno = async (turno: Turno) => {
+    const body = {
+      turno_id: turno.id,
+      paciente_id: turno.paciente?.id ?? 0,
+    };
+
+    await fetch("http://127.0.0.1:8000/api/liberar-turno", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    cargarTurnos();
+  };
 
   return (
     <div style={{ padding: 20 }}>
@@ -76,6 +96,7 @@ export const TurnosForm = ()=>{
       <CalendarTurnos
         turnos={turnosFiltrados}
         onSeleccionar={(t) => setTurnoSeleccionado(t)}
+        onLiberar={liberarTurno}     // <<<<<< NUEVO
       />
 
       {/* MODAL */}
@@ -88,5 +109,4 @@ export const TurnosForm = ()=>{
       )}
     </div>
   );
-}
-
+};

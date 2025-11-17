@@ -11,9 +11,18 @@ class Turno:
         self.estado = estado
         self.fecha = fecha
 
+    def marcar_asistencia(self, estado: Estado):
+        if estado.es_ocupado():
+            self.estado = estado
+    
+    def marcar_inasistencia(self, estado: Estado):
+        self.estado = estado
 
     def esta_libre(self):
         return self.estado.es_libre()
+    
+    def esta_ocupado(self):
+        return self.estado.es_ocupado()
     
     def solicitar_turno(self, estado: Estado, paciente: Paciente):
         if self.esta_libre:
@@ -21,6 +30,15 @@ class Turno:
             self.paciente = paciente
             print("SE OCUPO EL TURNO")
 
+    def liberar_turno(self, estado: Estado):
+        self.estado = estado
+        self.paciente = None
+    
+    def es_asistido(self):
+        return self.estado.es_asistido()
+    
+    def es_no_asistido(self):
+        return self.estado.es_no_asistido()
 
 
     def __str__(self):

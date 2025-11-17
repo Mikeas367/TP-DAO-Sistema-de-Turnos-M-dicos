@@ -11,26 +11,28 @@ class SolicitarTurnoController:
         self.estados_repo = estados_repo
 
 
-
     def buscarTurnos(self):
         turnos = self.turno_repo.getAll()
         return turnos
     
+
     def solicitar_turno(self, turno: TurnoCreate):
         paciente = self.buscar_paciente(turno.paciente_id)
         turno_a_ocupar = self.buscar_turno(turno.turno_id)
         estado_ocupado = self.buscar_estado_ocupado()
+
+
         turno_a_ocupar.solicitar_turno(estado_ocupado, paciente)
         self.turno_repo.update(turno_a_ocupar)
+ 
 
-
-    
     def buscar_estado_ocupado(self):
         estados = self.estados_repo.getAll()
         for estado in estados:
             if estado.es_ocupado():
                 return estado
             
+
     def buscar_paciente(self, paciente_id: int, ):
         p =  self.paciente_repo.getById(paciente_id)
         if not p:
@@ -41,6 +43,7 @@ class SolicitarTurnoController:
             )
         return p
     
+
     def buscar_turno(self, turno_id: int):
         p =  self.turno_repo.getById(turno_id)
         if not p:
