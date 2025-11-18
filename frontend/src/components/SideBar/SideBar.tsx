@@ -32,6 +32,17 @@ export const SideBar = () =>  {
                     Turnos
                 </Link>
             </li>
+            
+            <li className='nav-item'>
+                <Link to="/especialidades" className='nav-link'>
+                    Listado de especialidades
+                </Link>
+            </li>
+            <li className='nav-item'>
+                <Link to="/nueva-especialidad" className='nav-link'>
+                    Nueva especialidad
+                </Link>
+            </li>
         </ul>
     </div>  
     </>

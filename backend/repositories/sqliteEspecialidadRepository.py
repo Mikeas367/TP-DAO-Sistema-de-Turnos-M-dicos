@@ -7,7 +7,7 @@ class SqliteEspecialidadRepository(IRepository):
         self.db = db
     
     def save(self, especialidad: Especialidad):
-        query = "INSERT INTO especialidad (nombre, descripcion) VALUES (?,?)"
+        query = "INSERT INTO especialidades (nombre, descripcion) VALUES (?,?)"
         self.db.execute(query, (especialidad.nombre, especialidad.descripcion))
 
     def getAll(self):
