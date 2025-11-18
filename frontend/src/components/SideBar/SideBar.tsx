@@ -43,6 +43,12 @@ export const SideBar = () =>  {
                     Nueva especialidad
                 </Link>
             </li>
+
+            <li className='nav-item'>
+                <Link to="/turnos-medico" className='nav-link'>
+                    Turnos medicos
+                </Link>
+            </li>
         </ul>
     </div>  
     </>

@@ -42,4 +42,8 @@ class Turno:
 
 
     def __str__(self):
-        return f"Turno ID: {self.id}, Estado: {self.estado}"
+        return f"Turno ID: {self.id}, Estado: {self.estado.nombre}"
+    
+    def sos_de_medico(self, medico_id: int):
+        print(f"parametro: {medico_id} El que tiene el Turno: {self.medico.id}")
+        return self.medico.id == medico_id

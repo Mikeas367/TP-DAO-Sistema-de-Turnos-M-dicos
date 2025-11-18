@@ -5,6 +5,7 @@ from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, 
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
+from datetime import datetime
 
 class ReporteAsistencia:
     def __init__(self, turno_repo: IRepository):
@@ -25,7 +26,9 @@ class ReporteAsistencia:
         return turnosAsistidos, turnosNoAsistidos
 
 
-    def generarReporteAsistencia(self, ruta_pdf="Reports/reporte_asistencias.pdf"):
+    def generarReporteAsistencia(self):
+        fechaHoraActual = datetime.now()
+        ruta_pdf = f"Reports/reporte_asistencias-{fechaHoraActual.day}-{fechaHoraActual.month}-{fechaHoraActual.year}.pdf"
         turnosAsistidos, turnosNoAsistidos = self.buscar_turnos()
 
 

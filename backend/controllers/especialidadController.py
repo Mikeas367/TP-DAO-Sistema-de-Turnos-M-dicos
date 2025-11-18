@@ -7,7 +7,6 @@ class especialidadController:
         self.repository = repository
 
     def crear_especialidad(self, nombre:str, descripcion: str):
-        print("------------------------------>", nombre, descripcion)
         especialidad = Especialidad(None, nombre=nombre, descripcion=descripcion)
         self.repository.save(especialidad)
         return especialidad

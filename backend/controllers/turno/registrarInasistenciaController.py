@@ -2,6 +2,7 @@ from interfaces.interfacePersistencia import IRepository
 from schemas.turnoSchema import TurnoCreate
 from models.turno import Turno
 from fastapi import HTTPException, status
+from datetime import datetime
 
 class RegistraInAsistenciaController:
     def __init__(self, turno_repo: IRepository, estados_repo: IRepository):
@@ -12,9 +13,18 @@ class RegistraInAsistenciaController:
     def registrarInAsistencia(self, turno: TurnoCreate):
         turno_a_marcar = self.buscar_turno(turno.turno_id)
         estado_no_asistido = self.buscar_estado_no_asistido()
+        fecha_turno_str = turno_a_marcar.fecha
+        fecha_turno = datetime.strptime(fecha_turno_str, "%Y-%m-%d %H:%M")
+        fechaHoraActual = datetime.now()
 
-        turno_a_marcar.marcar_inasistencia(estado_no_asistido)
-        self.turno_repo.update(turno_a_marcar)
+        if fecha_turno > fechaHoraActual:
+            raise HTTPException(
+                status_code=status.HTTP_404_NOT_FOUND,
+                detail="No se puede cancelar el turno ya que todavia no es la fecha"
+            )
+        else:
+            turno_a_marcar.marcar_inasistencia(estado_no_asistido)
+            self.turno_repo.update(turno_a_marcar)
 
 
 

@@ -6,7 +6,7 @@ import {
   actualizarEspecialidad,
 } from "../../services/especialidad.service";
 import type { EspecialidadBase } from "../../models/especialidad";
-import { useNavigate } from "react-router-dom"; // 👈 NUEVO
+import { useNavigate } from "react-router-dom";
 
 interface Props {
   especialidadId?: number;

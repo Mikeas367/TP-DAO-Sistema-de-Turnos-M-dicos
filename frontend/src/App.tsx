@@ -5,6 +5,7 @@ import {MedicoForm, MedicoList, SideBar} from "./components"
 import { TurnosForm } from "./components/CalendarioTurnos/TurnosForm";
 import { EspecialidadList } from "./components/EspecialidadList/EspecialidadList";
 import { EspecialidadForm } from "./components/EspecialidadForm/EspecialidadForm";
+import { MedicoTurnos } from "./components/MedicoTurno/MedicoTurnos";
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
           <Route path="/turnos" element={<TurnosForm/>}></Route>
           <Route path="/especialidades" element={<EspecialidadList />} />
           <Route path="/nueva-especialidad" element={<EspecialidadForm />} />
+          <Route path="/turnos-medico" element={<MedicoTurnos />}> </Route>
         </Routes>
         </div>
     </Router>
