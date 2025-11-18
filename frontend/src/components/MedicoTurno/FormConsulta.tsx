@@ -12,7 +12,7 @@ export const FormConsulta = ({ turno, onClose }: any) => {
       tratamiento: tratamiento,
     };
 
-    await fetch("http://127.0.0.1:8000/api/registrar-consulta", {
+    await fetch("http://127.0.0.1:8000/api/marcar-asistencia", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(body),

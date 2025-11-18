@@ -13,7 +13,11 @@ class SolicitarTurnoController:
 
     def buscarTurnos(self):
         turnos = self.turno_repo.getAll()
-        return turnos
+        turnos_a_mostrar = []
+        for turno in turnos:
+            if turno.esta_libre() or turno.esta_ocupado():
+                turnos_a_mostrar.append(turno)
+        return turnos_a_mostrar
     
 
     def solicitar_turno(self, turno: TurnoConsulta):

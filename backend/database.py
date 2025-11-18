@@ -60,6 +60,20 @@ class Database:
                 FOREIGN KEY (estado_id) REFERENCES estados(id)
             )
         ''')
+
+        # Tabla Historial clinico
+        self.cursor.execute('''
+                CREATE TABLE IF NOT EXISTS historiales (
+                            id INTEGER PRIMARY KEY AUTOINCREMENT,
+                            medico_id INTEGER NOT NULL,
+                            fecha TEXT NOT NULL,
+                            paciente_id INTEGER NOT NULL,
+                            diagnostico TEXT NOT NULL,
+                            tratamiento TEXT NOT NULL,
+                            FOREIGN KEY (paciente_id) REFERENCES pacientes(id),
+                            FOREIGN KEY (medico_id) REFERENCES medicos(id)
+                            )
+            ''')
         
 
         

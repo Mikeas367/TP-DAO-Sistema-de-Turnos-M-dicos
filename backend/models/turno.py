@@ -12,8 +12,7 @@ class Turno:
         self.fecha = fecha
 
     def marcar_asistencia(self, estado: Estado):
-        if estado.es_ocupado():
-            self.estado = estado
+        self.estado = estado
     
     def marcar_inasistencia(self, estado: Estado):
         self.estado = estado
