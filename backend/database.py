@@ -3,6 +3,7 @@ import sqlite3
 class Database:
     def __init__(self, db_name="medicos.db"):
         self.conn = sqlite3.connect(db_name, check_same_thread=False)
+        self.connection = self.conn
         self.cursor = self.conn.cursor()
         self.create_table()
 

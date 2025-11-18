@@ -149,3 +149,25 @@ class SqliteTurnoRepository(IRepository):
 
     def deleteById(self, id):
         pass
+
+    def getPacientesAtendidos(self, desde: str, hasta: str):
+        query = """
+            SELECT 
+                p.id AS paciente_id,
+                p.nombre,
+                p.apellido,
+                p.email,
+                t.fecha
+            FROM turnos t
+            JOIN pacientes p ON t.paciente_id = p.id
+            WHERE t.estado_id = 3
+            AND t.fecha BETWEEN ? AND ?
+            ORDER BY t.fecha;
+
+        """
+        cursor = self.db.conn.cursor()
+        cursor.execute(query, (desde, hasta))
+        rows = cursor.fetchall()
+
+        columnas = [col[0] for col in cursor.description]
+        return [dict(zip(columnas, row)) for row in rows]

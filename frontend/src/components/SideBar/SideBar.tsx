@@ -55,6 +55,9 @@ export const SideBar = () =>  {
                     Nuevo turno
                 </Link>
             </li>
+            <li className='nav-item'>
+                <Link to="/reportes" className='nav-link'>Reportes</Link>
+             </li>
         </ul>
     </div>  
     </>
