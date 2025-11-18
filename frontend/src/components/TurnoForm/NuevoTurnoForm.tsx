@@ -6,14 +6,14 @@ interface TurnoCreate {
   medico_id: number;
 }
 
-export const NuevoTurnoForm = ()=> {
+export const NuevoTurnoForm = () => {
   const [medicos, setMedicos] = useState<any[]>([]);
   const [fecha, setFecha] = useState("");
   const [medicoId, setMedicoId] = useState<number | "">("");
   const [loading, setLoading] = useState(false);
   const [mensaje, setMensaje] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  // Cargar médicos
   useEffect(() => {
     axios.get("http://127.0.0.1:8000/api/medicos").then((res) => {
       setMedicos(res.data);
@@ -21,8 +21,11 @@ export const NuevoTurnoForm = ()=> {
   }, []);
 
   const crearTurno = async () => {
+    setError(null);
+    setMensaje(null);
+
     if (!fecha || !medicoId) {
-      setMensaje("Debe completar todos los campos");
+      setError("Debe completar todos los campos.");
       return;
     }
 
@@ -33,59 +36,79 @@ export const NuevoTurnoForm = ()=> {
 
     try {
       setLoading(true);
-      setMensaje(null);
-      console.log(data.fecha)
       await axios.post("http://127.0.0.1:8000/api/nuevo-turno", data);
 
-      setMensaje("Turno creado correctamente");
+      setMensaje("Turno creado correctamente.");
       setFecha("");
       setMedicoId("");
     } catch (error) {
-      setMensaje("Error al crear el turno");
+      setError("Error al crear el turno.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="p-4 max-w-md mx-auto">
-      <h2 className="text-xl font-bold mb-4">Crear nuevo turno</h2>
+    <div className="container mt-4">
+      <div className="card shadow-sm">
+        <div className="card-body">
+          <h2 className="card-title mb-4 text-center fw-bold">
+            Crear Nuevo Turno
+          </h2>
 
-      <label className="block font-medium mt-2">Fecha del turno</label>
-      <input
-        type="datetime-local"
-        value={fecha}
-        onChange={(e) => setFecha(e.target.value)}
-        className="border p-2 w-full rounded"
-      />
+          {error && (
+            <div className="alert alert-danger text-center">{error}</div>
+          )}
 
-      <label className="block font-medium mt-2">Médico</label>
-      <select
-        value={medicoId}
-        onChange={(e) => setMedicoId(Number(e.target.value))}
-        className="border p-2 w-full rounded"
-      >
-        <option value="">Seleccione un médico</option>
-        {medicos.map((m) => (
-          <option key={m.id} value={m.id}>
-            {m.nombre} {m.apellido}
-          </option>
-        ))}
-      </select>
+          {mensaje && (
+            <div className="alert alert-success text-center">{mensaje}</div>
+          )}
 
-      <button
-        onClick={crearTurno}
-        disabled={loading}
-        className="bg-blue-600 text-white px-4 py-2 rounded mt-4 w-full"
-      >
-        {loading ? "Creando..." : "Crear turno"}
-      </button>
+          <div className="mb-3">
+            <label className="form-label fw-semibold">Fecha del turno</label>
+            <input
+              type="datetime-local"
+              value={fecha}
+              onChange={(e) => setFecha(e.target.value)}
+              className="form-control"
+            />
+          </div>
 
-      {mensaje && (
-        <p className="mt-3 text-center font-semibold">
-          {mensaje}
-        </p>
-      )}
+          <div className="mb-3">
+            <label className="form-label fw-semibold">Médico</label>
+            <select
+              value={medicoId}
+              onChange={(e) => setMedicoId(Number(e.target.value))}
+              className="form-select"
+            >
+              <option value="">Seleccione un médico</option>
+              {medicos.map((m) => (
+                <option key={m.id} value={m.id}>
+                  {m.nombre} {m.apellido}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          <button
+            onClick={crearTurno}
+            disabled={loading}
+            className="btn btn-primary w-100 py-2"
+          >
+            {loading ? (
+              <>
+                <span
+                  className="spinner-border spinner-border-sm me-2"
+                  role="status"
+                ></span>
+                Creando...
+              </>
+            ) : (
+              "Crear turno"
+            )}
+          </button>
+        </div>
+      </div>
     </div>
   );
-}
+};

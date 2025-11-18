@@ -17,12 +17,13 @@ class SqliteEspecialidadRepository(IRepository):
         especialidades = []
         # le doy como un formato Json 
         for fila in filas_especialidades:
-            especialidad = {
-                "id": fila[0],
-                "nombre": fila[1],
-                "descripcion": fila[2],
-            }
-            especialidades.append(especialidad)
+            # Creamos una instancia de la clase Especialidad
+            especialidad_objeto = Especialidad(
+                id=fila[0],
+                nombre=fila[1],
+                descripcion=fila[2],
+            )
+            especialidades.append(especialidad_objeto)
         return especialidades
 
     def deleteById(self, id):
