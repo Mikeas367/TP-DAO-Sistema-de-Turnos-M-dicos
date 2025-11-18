@@ -1,5 +1,5 @@
 from interfaces.interfacePersistencia import IRepository
-from schemas.turnoSchema import TurnoCreate
+from schemas.turnoSchema import TurnoConsulta
 from models.turno import Turno
 from fastapi import HTTPException, status
 from datetime import datetime
@@ -10,7 +10,7 @@ class RegistraInAsistenciaController:
         self.estados_repo = estados_repo
 
 
-    def registrarInAsistencia(self, turno: TurnoCreate):
+    def registrarInAsistencia(self, turno: TurnoConsulta):
         turno_a_marcar = self.buscar_turno(turno.turno_id)
         estado_no_asistido = self.buscar_estado_no_asistido()
         fecha_turno_str = turno_a_marcar.fecha

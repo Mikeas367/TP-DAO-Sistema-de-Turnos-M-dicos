@@ -2,13 +2,13 @@ import { useState } from "react";
 import "./FormConsulta.css";
 
 export const FormConsulta = ({ turno, onClose }: any) => {
-  const [medicamento, setMedicamento] = useState("");
+  const [diagnostico, setDiagnostico] = useState("");
   const [tratamiento, setTratamiento] = useState("");
 
   const enviarConsulta = async () => {
     const body = {
       turno_id: turno.id,
-      detalle_medicamento: medicamento,
+      detalle_diagnostico: diagnostico,
       tratamiento: tratamiento,
     };
 
@@ -27,16 +27,16 @@ export const FormConsulta = ({ turno, onClose }: any) => {
       <div className="modal-content">
         <h3>Registrar Consulta</h3>
 
-        <p><b>Turno:</b> {turno.fecha}</p>
+        <p><b>Turno:</b> {turno.id} Fecha Turno:{turno.fecha}</p>
         <p><b>Paciente:</b> {turno.paciente.nombre} {turno.paciente.apellido}</p>
 
-        <label>Medicamentos:</label>
+        <label>Diagnostico:</label>
         <textarea
-          value={medicamento}
-          onChange={(e) => setMedicamento(e.target.value)}
+          value={diagnostico}
+          onChange={(e) => setDiagnostico(e.target.value)}
         />
 
-        <label>Tratamiento:</label>
+        <label>tratamiento:</label>
         <textarea
           value={tratamiento}
           onChange={(e) => setTratamiento(e.target.value)}

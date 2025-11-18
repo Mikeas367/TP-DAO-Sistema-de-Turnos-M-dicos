@@ -1,5 +1,5 @@
 from interfaces.interfacePersistencia import IRepository
-from schemas.turnoSchema import TurnoCreate
+from schemas.turnoSchema import TurnoConsulta
 from models.turno import Turno
 from fastapi import HTTPException, status
 
@@ -9,7 +9,7 @@ class RegistraAsistenciaController:
         self.estados_repo = estados_repo
 
 
-    def registrarAsistencia(self, turno: TurnoCreate):
+    def registrarAsistencia(self, turno: TurnoConsulta):
         turno_a_marcar = self.buscar_turno(turno.turno_id)
         estado_asistido = self.buscar_estado_asistido()
 

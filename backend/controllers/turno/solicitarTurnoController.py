@@ -1,7 +1,7 @@
 from http.client import HTTPException
 from interfaces.interfacePersistencia import IRepository 
 from models.turno import Turno
-from schemas.turnoSchema import TurnoCreate
+from schemas.turnoSchema import TurnoConsulta
 from fastapi import HTTPException, status
 
 class SolicitarTurnoController:
@@ -16,7 +16,7 @@ class SolicitarTurnoController:
         return turnos
     
 
-    def solicitar_turno(self, turno: TurnoCreate):
+    def solicitar_turno(self, turno: TurnoConsulta):
         paciente = self.buscar_paciente(turno.paciente_id)
         turno_a_ocupar = self.buscar_turno(turno.turno_id)
         estado_ocupado = self.buscar_estado_ocupado()
@@ -33,7 +33,7 @@ class SolicitarTurnoController:
                 return estado
             
 
-    def buscar_paciente(self, paciente_id: int, ):
+    def buscar_paciente(self, paciente_id: int):
         p =  self.paciente_repo.getById(paciente_id)
         if not p:
             #error HTTP para el front

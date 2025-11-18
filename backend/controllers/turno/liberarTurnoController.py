@@ -1,6 +1,6 @@
 from interfaces.interfacePersistencia import IRepository 
 from models.turno import Turno
-from schemas.turnoSchema import TurnoCreate
+from schemas.turnoSchema import TurnoConsulta
 from fastapi import HTTPException, status
 
 
@@ -15,7 +15,7 @@ class LiberarTurnoController:
         return turnos
     
 
-    def liberar_turno(self, turno: TurnoCreate):
+    def liberar_turno(self, turno: TurnoConsulta):
         turno_a_liberar = self.buscar_turno(turno.turno_id)
         estado_libre = self.buscar_estado_libre()
         turno_a_liberar.liberar_turno(estado_libre)

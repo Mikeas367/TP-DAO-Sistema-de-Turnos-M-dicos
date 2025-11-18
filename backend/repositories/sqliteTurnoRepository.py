@@ -12,9 +12,22 @@ class SqliteTurnoRepository(IRepository):
         self.db = db
 
     def save(self, turno: Turno):
-        #query = "INSERT INTO medicos (nombre, apellido, email, especialidad_id) VALUES (?, ?, ?, ?)"
-        #self.db.execute(query, (medico.nombre, medico.apellido, medico.email, medico.especialidad.id))
-        pass
+        query = """
+            INSERT INTO turnos (fecha, paciente_id, medico_id, estado_id)
+            VALUES (?, ?, ?, ?)
+        """
+        
+        paciente_id = turno.paciente.id if turno.paciente else None
+
+        self.db.execute(
+            query,
+            (
+                turno.fecha,          
+                paciente_id,         
+                turno.medico.id,      
+                turno.estado.id       
+            )
+        )
 
     def getAll(self):
         query = """

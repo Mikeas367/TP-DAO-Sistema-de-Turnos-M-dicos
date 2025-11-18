@@ -13,6 +13,7 @@ app.include_router(especialidadRouter, prefix="/api")
 app.include_router(turnoRouter, prefix="/api")
 app.include_router(pacienteRouter, prefix="/api")
 app.include_router(reportesRouter, prefix="/api")
+
 origins = [
     "http://localhost:5173",  # URL de tu front-end
 ]
