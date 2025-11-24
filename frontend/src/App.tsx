@@ -7,6 +7,8 @@ import { EspecialidadList } from "./components/EspecialidadList/EspecialidadList
 import { EspecialidadForm } from "./components/EspecialidadForm/EspecialidadForm";
 import { MedicoTurnos } from "./components/MedicoTurno/MedicoTurnos";
 import { NuevoTurnoForm } from "./components/TurnoForm/NuevoTurnoForm";
+import { AgendaForm } from "./components/AgendaForm/AgendaForm";
+import { AgendaList } from "./components/AgendaList/AgendaList";
 
 
 function App() {
@@ -25,6 +27,8 @@ function App() {
           <Route path="/nueva-especialidad" element={<EspecialidadForm />} />
           <Route path="/turnos-medico" element={<MedicoTurnos />}> </Route>
           <Route path="/nuevo-turno" element={<NuevoTurnoForm />}> </Route>
+          <Route path="/nueva-agenda" element={<AgendaForm />}> </Route>
+          <Route path="/agendas" element={<AgendaList />}> </Route>
         </Routes>
         </div>
     </Router>

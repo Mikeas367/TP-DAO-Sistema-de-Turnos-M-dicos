@@ -5,6 +5,8 @@ from routes.especialidadRouter import router as especialidadRouter
 from routes.turnoRouter import router as turnoRouter
 from routes.pacientesRouter import router as pacienteRouter
 from routes.reportesRouter import router as reportesRouter
+from routes.agendaRouter import router as agendaRouter
+
 
 app = FastAPI(title="Sistema de Turnos Médicos")
 
@@ -13,6 +15,7 @@ app.include_router(especialidadRouter, prefix="/api")
 app.include_router(turnoRouter, prefix="/api")
 app.include_router(pacienteRouter, prefix="/api")
 app.include_router(reportesRouter, prefix="/api")
+app.include_router(agendaRouter, prefix="/api")
 
 origins = [
     "http://localhost:5173",  # URL de tu front-end

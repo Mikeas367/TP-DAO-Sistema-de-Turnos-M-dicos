@@ -75,7 +75,28 @@ class Database:
                             )
             ''')
         
+        # Tabla Agenda
+        self.cursor.execute('''
+                CREATE TABLE IF NOT EXISTS agendas_medico (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    medico_id INTEGER NOT NULL,
+                    FOREIGN KEY (medico_id) REFERENCES medicos(id)
+                    )   
+            ''')
+        
+        # Tabla Dia Laboral 
+        self.cursor.execute('''
+                CREATE TABLE IF NOT EXISTS agenda_dias_trabajo (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    agenda_id INTEGER NOT NULL,
+                    dia_semana INTEGER NOT NULL,       -- 0 a 6
+                    hora_inicio TEXT NOT NULL,         -- "08:00"
+                    hora_fin TEXT NOT NULL,            -- "12:00"
+                    duracion_turno_min INTEGER NOT NULL,
 
+                    FOREIGN KEY (agenda_id) REFERENCES agendas_medico(id)
+                    )
+            ''')
         
         self.conn.commit()
 

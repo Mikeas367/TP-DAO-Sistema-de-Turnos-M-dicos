@@ -15,16 +15,18 @@ class RegistrarNuevoTurnoController:
 
     
     def registrar_nuevo_turno(self, turno: TurnoCreate):
+        fecha_turno_str = turno.fecha
+        fecha_turno_a_validar = datetime.strptime(fecha_turno_str, "%Y-%m-%dT%H:%M")
+
         turnos = self.buscarTurnos()
         self.obtener_fecha_hora_actual()
-        self.validar_fecha(turno)
-        self.validar_superposicion(turnos, turno)
+        self.validar_fecha(fecha_turno_a_validar)
+        self.validar_superposicion(turnos, fecha_turno_a_validar)
         
         estado_libre = self.buscar_estado_libre()
         medico = self.buscarMedico(turno.medico_id)
-        fecha_nuevo_turno = self.fecha_hora_actual.strftime("%Y-%m-%d %H:%M")
-
-        nuevo_turno = Turno(None, None, medico, estado_libre, fecha_nuevo_turno)
+        
+        nuevo_turno = Turno(None, None, medico, estado_libre, fecha_turno_a_validar)
         self.turno_repo.save(nuevo_turno)
 
 
@@ -32,19 +34,14 @@ class RegistrarNuevoTurnoController:
         fechaHoraActual = datetime.now()
         self.fecha_hora_actual = fechaHoraActual
 
-    def validar_fecha(self, turno_a_validar: TurnoCreate):
-        fecha_turno_str = turno_a_validar.fecha
-        fecha_turno_a_validar = datetime.strptime(fecha_turno_str, "%Y-%m-%dT%H:%M")
-
+    def validar_fecha(self, fecha_turno_a_validar: str):
         if fecha_turno_a_validar < self.fecha_hora_actual:
             raise HTTPException(
                 status_code=status.HTTP_404_NOT_FOUND,
                 detail="No se crear un turno para una fecha pasada"
             )
     
-    def validar_superposicion(self, turnos, turno_a_validar: TurnoCreate):
-        fecha_turno_str = turno_a_validar.fecha
-        fecha_turno_a_validar = datetime.strptime(fecha_turno_str, "%Y-%m-%dT%H:%M")
+    def validar_superposicion(self, turnos, fecha_turno_a_validar: str):
         margen = timedelta(minutes=5)
         for turno in turnos:
             fecha_turno_existente = datetime.strptime(turno.fecha, "%Y-%m-%d %H:%M")
