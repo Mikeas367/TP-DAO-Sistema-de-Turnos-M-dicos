@@ -50,7 +50,7 @@ export const PacienteList = () => {
         onClick={() => {
           setShowForm(true);
           setEditingMedicoId(null);}}>
-        Nuevo Médico
+        Nuevo Paciente
       </button>
 
       {/* Muestra el formulario si se selecciono para editar un paciente */}
