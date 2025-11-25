@@ -1,5 +1,11 @@
 import os
 from datetime import datetime
+
+# ========= FIX PARA EVITAR ERROR DE TKINTER ==========
+import matplotlib
+matplotlib.use("Agg")   # Backend sin GUI
+# =====================================================
+
 import matplotlib.pyplot as plt
 
 from reportlab.platypus import (
@@ -9,12 +15,14 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 
+
 class ReporteAsistencia:
 
     def __init__(self, turno_repo):
         self.turno_repo = turno_repo
 
     def generarReporteAsistencia(self, desde: str, hasta: str):
+
         datos = self.turno_repo.obtener_asistencias_inasistencias(desde, hasta)
 
         asistencias = datos[0] if datos and datos[0] is not None else 0
@@ -23,22 +31,35 @@ class ReporteAsistencia:
         # ============================
         #  1) GENERACIÓN DEL GRÁFICO
         # ============================
+
         labels = ["Asistencias", "Inasistencias"]
+
+        # Sanitizar valores
+        asistencias = asistencias if isinstance(asistencias, (int, float)) and asistencias >= 0 else 0
+        inasistencias = inasistencias if isinstance(inasistencias, (int, float)) and inasistencias >= 0 else 0
+
         sizes = [asistencias, inasistencias]
 
-        plt.figure(figsize=(5, 5))
-        plt.pie(
-            sizes,
-            labels=labels,
-            autopct='%1.1f%%',
-            wedgeprops={"linewidth": 1, "edgecolor": "white"},
-            textprops={'fontsize': 12}
-        )
-        plt.title("Asistencias vs Inasistencias", fontsize=16)
+        # Si ambos son cero, evitar NaN
+        if sum(sizes) == 0:
+            # Crear gráfico "vacío" de forma segura
+            plt.figure(figsize=(5,5))
+            plt.text(0.5, 0.5, "Sin datos para mostrar", ha="center", va="center", fontsize=14)
+        else:
+            plt.figure(figsize=(5, 5))
+            plt.pie(
+                sizes,
+                labels=labels,
+                autopct='%1.1f%%',
+                wedgeprops={"linewidth": 1, "edgecolor": "white"},
+                textprops={'fontsize': 12}
+            )
 
+        plt.title("Asistencias vs Inasistencias", fontsize=16)
         grafico_path = "Reports/grafico_asistencia.png"
         plt.savefig(grafico_path, dpi=150, bbox_inches="tight")
         plt.close()
+
 
         # ============================
         #  2) GENERACIÓN DEL PDF
