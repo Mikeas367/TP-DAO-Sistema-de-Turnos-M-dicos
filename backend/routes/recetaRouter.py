@@ -13,9 +13,9 @@ db = Database()
 def crear_receta_endpoint(receta: RecetaCreate):
     return recetacontroller.crear_receta_controller(db, receta)
 
-@router.get("/", response_model=list[RecetaResponse])
-def listar_recetas_endpoint():
-    return recetacontroller.listar_recetas_controller(db)
+#@router.get("/", response_model=list[RecetaResponse])
+#def listar_recetas_endpoint():
+#    return recetacontroller.listar_recetas_controller(db)
 
 @router.get("/{receta_id}/pdf")
 def descargar_pdf(receta_id: int):

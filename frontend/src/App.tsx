@@ -11,7 +11,7 @@ import { TurnosForm } from "./components/CalendarioTurnos/TurnosForm";
 import { EspecialidadList } from "./components/EspecialidadList/EspecialidadList";
 import { EspecialidadForm } from "./components/EspecialidadForm/EspecialidadForm";
 import { MedicoTurnos } from "./components/MedicoTurno/MedicoTurnos";
-import { NuevoTurnoForm } from "./components/TurnoForm/NuevoTurnoForm";
+//import { NuevoTurnoForm } from "./components/TurnoForm/NuevoTurnoForm";
 
 import { AgendaForm } from "./components/AgendaForm/AgendaForm";
 import { AgendaList } from "./components/AgendaList/AgendaList";
@@ -27,6 +27,8 @@ import { PacienteList } from "./components/PacienteList/PacienteList";
 import { obtenerRecetas } from "./services/recetaService";
 import type { Receta } from "./services/recetaService";
 
+import "bootstrap-icons/font/bootstrap-icons.css";
+import { HistoriaClinica } from "./components/HistorialClinico/HistorialClinico";
 
 function App() {
 
@@ -67,7 +69,8 @@ function App() {
 
           <Route path="/turnos" element={<TurnosForm />} />
           <Route path="/turnos-medico" element={<MedicoTurnos />} />
-          <Route path="/nuevo-turno" element={<NuevoTurnoForm />} />
+
+          {/* <Route path="/nuevo-turno" element={<NuevoTurnoForm />} /> */}
 
           <Route path="/especialidades" element={<EspecialidadList />} />
           <Route path="/nueva-especialidad" element={<EspecialidadForm />} />
@@ -102,6 +105,10 @@ function App() {
             element={<RecetaForm onCreated={cargarRecetas} />} 
           />
 
+          <Route 
+            path="/historiales-clinicos" 
+            element={<HistoriaClinica/>} 
+          />
         </Routes>
       </div>
     </Router>

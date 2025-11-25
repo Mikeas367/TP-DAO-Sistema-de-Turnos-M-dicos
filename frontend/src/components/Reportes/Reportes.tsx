@@ -58,21 +58,21 @@ export const Reportes: React.FC = () => {
             className="btn btn-lg btn-calido-naranja"
             onClick={() => descargarPDF("pacientes")}
           >
-            📄 PDF — Pacientes Atendidos
+            <i className="bi bi-file-pdf-fill"></i> PDF — Pacientes Atendidos 
           </button>
 
           <button
             className="btn btn-lg btn-calido-coral"
             onClick={() => descargarPDF("asistencias")}
           >
-            📄 PDF — Asistencias / Inasistencias
+            <i className="bi bi-file-pdf-fill"></i> PDF — Asistencias / Inasistencias 
           </button>
 
           <button
             className="btn btn-lg btn-calido-amarillo"
             onClick={() => descargarPDF("especialidad")}
           >
-            📄 PDF — Turnos por Especialidad
+            <i className="bi bi-file-pdf-fill"></i> PDF — Turnos por Especialidad 
           </button>
         </div>
       </div>

@@ -8,7 +8,7 @@ from routes.pacientesRouter import router as pacienteRouter   # <-- agregado
 from routes.reportesRouter import router as reportesRouter
 from routes.recetaRouter import router as recetaRouter
 from routes.agendaRouter import router as agendaRouter
-
+from routes.historiaClinicaRouter import router as historialRouter
 
 app = FastAPI(title="Sistema de Turnos Médicos")
 
@@ -20,6 +20,7 @@ app.include_router(pacienteRouter, prefix="/api")              # <-- agregado aq
 app.include_router(reportesRouter, prefix="/api")
 app.include_router(recetaRouter, prefix="/api")
 app.include_router(agendaRouter, prefix="/api")
+app.include_router(historialRouter, prefix="/api")
 
 # ========== CORS ==========
 origins = [

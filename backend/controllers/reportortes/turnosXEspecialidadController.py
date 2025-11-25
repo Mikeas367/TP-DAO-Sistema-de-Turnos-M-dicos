@@ -8,23 +8,42 @@ from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 
+from interfaces.interfacePersistencia import IRepository
+
 class ReporteTurnosXEspecialidad:
 
-    def __init__(self, turno_repo, especialidad_repo):
+    def __init__(self, turno_repo: IRepository, especialidad_repo: IRepository):
         self.turno_repo = turno_repo
         self.especialidad_repo = especialidad_repo
+
+
+    def buscar_turnos_entre_fechas(self, fecha_desde, fecha_hasta):
+        turnos_entre_fechas = []
+        turnos = self.turno_repo.getAll()
+
+        for turno in turnos:
+            if turno.estas_entre_fechas(fecha_desde, fecha_hasta):
+                turnos_entre_fechas.append(turno)
+        
+        return turnos_entre_fechas
+    
 
     # ===============================
     # 🔹 Contar turnos por especialidad
     # ===============================
     def conteo_por_especialidades(self, especialidades, turnos):
-        contador = {esp.nombre: 0 for esp in especialidades}
-
+        contador = {}
+        #contador = {esp.nombre: 0 for esp in especialidades}
+        for especialiad in especialidades:
+            contador[especialiad.nombre] = 0
+            
         for turno in turnos:
             esp_nombre = turno.medico.especialidad.nombre
             contador[esp_nombre] += 1
+            print(contador)
 
         return contador
+    
 
     # ===============================
     # 🔹 Reporte principal con filtro fechas
@@ -32,11 +51,12 @@ class ReporteTurnosXEspecialidad:
     def generarReporte(self, desde, hasta):
 
         especialidades = self.especialidad_repo.getAll()
-        turnos = self.turno_repo.getTurnosEntreFechas(desde, hasta)
+        turnos = self.buscar_turnos_entre_fechas(desde, hasta)
 
         contador = self.conteo_por_especialidades(especialidades, turnos)
 
         return self.generar_grafico_barras(contador, desde, hasta)
+
 
     # ===============================
     # 🔹 Generación del PDF
@@ -90,12 +110,15 @@ class ReporteTurnosXEspecialidad:
             spaceAfter=20,
         )
 
+
         story.append(Paragraph("Reporte de Turnos por Especialidad", titulo))
         story.append(Paragraph(f"Período: <b>{desde}</b> a <b>{hasta}</b>", styles["Heading3"]))
         story.append(Spacer(1, 20))
 
+
         story.append(Image(grafico_path, width=420, height=300))
         story.append(Spacer(1, 20))
+
 
         fecha_actual = datetime.now().strftime("%d/%m/%Y %H:%M")
         story.append(Paragraph(f"Generado el {fecha_actual}", styles["Normal"]))
